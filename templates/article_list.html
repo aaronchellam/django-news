@@ -7,15 +7,20 @@
 {% for article in article_list %}
     <div class="card">
         <div class="card-header">
-            <span class="font-weight-bold text-primary">{{ article.title }}</span> &middot;
+            <span class="font-weight-bold text-primary"><a class="text-decoration-none" href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></span> &middot;
             <span class="text-muted">by {{ article.author }} | {{ article.date }}</span>
         </div>
         <div class="card-body">
-            {{ article.body|linebreaksbr }}
-        </div>
-        <div class="card-footer text-center text-muted">
+            <p>{{ article.body|linebreaksbr }}</p>
             <a href="{% url 'article_edit' article.pk %}" class="btn btn-outline-primary">Edit</a> |
             <a href="{% url 'article_delete' article.pk %}" class="btn btn-outline-danger">Delete</a>
+        </div>
+{#        <div class="card-footer text-center text-muted">#}
+        <div class="card-footer">
+            {% for comment in article.comment_set.all %}
+                <p><span class="font-weight-bold">{{ comment.author }} &middot; </span>
+                    {{ comment }}</p>
+            {% endfor %}
         </div>
     </div>
     <br />
