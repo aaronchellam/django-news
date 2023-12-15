@@ -44,6 +44,9 @@ class CommentPost(SingleObjectMixin, FormView):
         # Initially we save the for but set commit=False because in the next line we must associate the correct article with the form object.
         comment = form.save(commit=False)
         comment.article = self.object
+
+        # Set the author to be the current logged in user.
+        comment.author = self.request.user
         comment.save()
         return super().form_valid(form)
 
